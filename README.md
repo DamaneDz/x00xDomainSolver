@@ -1,4 +1,4 @@
-# x00x Domain IP Solver
+# x00x Domain IP/DNS Solver
 
 x00x Domain IP/DNS Solver is a PHP tool that grab the IP Address and the Host Name of a domains list and scan the most HTTP/HTTPS known ports (80/443/8080/8000).
 This tool was made to help for finding live/dead SubDomains.
