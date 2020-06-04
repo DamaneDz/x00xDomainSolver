@@ -12,8 +12,9 @@ $dom=remove_http(trim($dom));
 $ip=@gethostbyname($dom);
 $hostname = @gethostbyaddr($ip);
 if(!empty($ip) OR !empty($hostname)){
-if(web_is_up($dom)){
-echo "DOMAIN: http://{$dom} -- HOSTNAME: {$hostname} -- IP: {$ip} ==> HTTP WORKS !\n";
+$opened_ports=web_is_up($dom);
+if($opened_ports){
+echo "DOMAIN: http://{$dom} -- HOSTNAME: {$hostname} -- IP: {$ip} -- OPENED PORTS: "; foreach($opened_ports as $opened_port){echo "{$opened_port},";}; echo " ==> HTTP WORKS !\n";
 file_put_contents("domains_http.txt","{$dom}|{$hostname}|{$ip}\n",FILE_APPEND);
 $c++;
 }else{
@@ -34,18 +35,21 @@ $f++;
 if($c+$d+$f == 0){
 echo '\nNOTHING FOUND  !!\n';
 }else{
-echo "\nTHERE IS : ($c) WITH HTTP/HTTPS RESPONSE ( 80/443/8080/8000 USED AS PORTS ) AND ($d) RESPONDING BUT NO HTTP/HTTPS
+echo "\nTHERE IS : ($c) WITH HTTP/HTTPS RESPONSE ( 80/81/443/8000/8008/8080 USED AS PORTS ) AND ($d) RESPONDING BUT NO HTTP/HTTPS
 AND ($f) ARE DEAD !! \n";
 }
 }
 
 function web_is_up($host){
-if($socket =@ fsockopen($host, 80, $errno, $errstr, 10) OR $socket =@ fsockopen($host, 443, $errno, $errstr, 10) OR $socket =@ fsockopen($host, 8080, $errno, $errstr, 10) OR $socket =@ fsockopen($host, 8000, $errno, $errstr, 10)) {
-return 1;
-fclose($socket);
-} else {
-return 0;
+$ports= array(80,81,443,8000,8008,8080);
+$opened_ports= array();
+foreach($ports as $port){
+if($socket=@fsockopen($host, $port, $errno, $errstr, 10)){
+array_push($opened_ports,$port);
+@fclose($socket);
 }
+}
+return $opened_ports;
 }
 
 function remove_http($url) {
