@@ -12,7 +12,7 @@ Don't use it, still the slowest and most complicated php tool.
 php domain_resolver.php domainlist.txt
 ```
 
-![Example](https://i.ibb.co/vmgD16c/Screenshot-04-04-2020-14-54-48.png)
+![Example](https://i.ibb.co/jrJbYKT/Screenshot-06-04-2020-01-54-40.png)
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
